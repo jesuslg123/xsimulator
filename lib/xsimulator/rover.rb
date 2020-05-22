@@ -45,6 +45,7 @@ class Rover
     next_coordinate = Coordinate.new(current_coordinate.x + move_value[0], current_coordinate.y + move_value[1])
 
     if @map.available?(next_coordinate)
+      @map.update_rover_coordinate(current_coordinate, next_coordinate)
       @current_position.coordinate = next_coordinate
     else
       puts 'Invalid movement'

@@ -8,4 +8,8 @@ class Coordinate
     @x = coordinate_x
     @y = coordinate_y
   end
+
+  def ==(other)
+    @x == other.x && @y == other.y
+  end
 end
