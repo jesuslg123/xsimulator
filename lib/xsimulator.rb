@@ -8,15 +8,13 @@ require_relative 'xsimulator/rover'
 def main
   puts 'Initializing....'
 
+  input = process_input
+  start_exploring(input)
+end
+
+def process_input
   input_file_path = process_path_from_args
-  input = Input.new(input_file_path)
-
-  map = Map.new(input.area_coordinate)
-
-  input.rovers.each do |rover_input|
-    rover = Rover.new(rover_input.initial_position, rover_input.commands, map)
-    rover.run
-  end
+  Input.new(input_file_path)
 end
 
 def process_path_from_args
@@ -25,6 +23,15 @@ def process_path_from_args
   end
 
   ARGV.first
+end
+
+def start_exploring(input)
+  map = Map.new(input.area_coordinate)
+
+  input.rovers.each do |rover_input|
+    rover = Rover.new(rover_input.initial_position, rover_input.commands, map)
+    rover.run
+  end
 end
 
 main
