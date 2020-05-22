@@ -81,7 +81,7 @@ class Input
   end
 
   def process_input_rover(position_data, moves_data)
-    position_data[0] = position_data.first.to_i
+    position_data[0] = position_data[0].to_i
     position_data[1] = position_data[1].to_i
 
     unless InputValidator.valid_rover?(position_data, moves_data)
