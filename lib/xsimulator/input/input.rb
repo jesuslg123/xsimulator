@@ -69,11 +69,11 @@ class Input
   end
 
   def process_input_area(area_data)
-    area_data = area_data.map(&:to_i) # TODO: Strings to int cast to 0
-
     unless InputValidator.valid_area?(area_data)
       raise StandardError, 'Invalid data area' # TODO: Custom exceptions class
     end
+
+    area_data = area_data.map(&:to_i)
 
     puts "Area: #{area_data.join(',')}"
 
@@ -81,12 +81,12 @@ class Input
   end
 
   def process_input_rover(position_data, moves_data)
-    position_data[0] = position_data[0].to_i
-    position_data[1] = position_data[1].to_i
-
     unless InputValidator.valid_rover?(position_data, moves_data)
       raise StandardError, 'Invalid data rover' # TODO: Custom exceptions class
     end
+
+    position_data[0] = position_data[0].to_i
+    position_data[1] = position_data[1].to_i
 
     puts 'Rover data'
     puts position_data.join(',')
