@@ -2,6 +2,7 @@
 
 require 'byebug'
 require_relative 'xsimulator/input/input'
+require_relative 'xsimulator/map'
 require_relative 'xsimulator/rover'
 
 def main
@@ -9,8 +10,11 @@ def main
 
   input_file_path = process_path_from_args
   input = Input.new(input_file_path)
+
+  map = Map.new(input.area_coordinate)
+
   input.rovers.each do |rover_input|
-    rover = Rover.new(rover_input.initial_position, rover_input.commands)
+    rover = Rover.new(rover_input.initial_position, rover_input.commands, map)
     rover.run
   end
 end

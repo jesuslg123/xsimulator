@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require_relative 'input/rover_input'
+require_relative 'map'
 
 # Represent the rover module which can move and explore an area
 class Rover
-  def initialize(position, moves)
+  def initialize(position, moves, map)
     @current_position = position
     @moves = moves
+    @map = map
     @compass = {
       W: [-1, 0],
       N: [0, 1],
@@ -41,7 +43,12 @@ class Rover
     move_value = @compass[current_orientation.to_sym]
 
     next_coordinate = Coordinate.new(current_coordinate.x + move_value[0], current_coordinate.y + move_value[1])
-    @current_position.coordinate = next_coordinate
+
+    if @map.available?(next_coordinate)
+      @current_position.coordinate = next_coordinate
+    else
+      puts 'Invalid movement'
+    end
   end
 
   def turn(direction)
