@@ -1,0 +1,5 @@
+5 B
+
+1 2 N
+
+L M R M L L L M M
