@@ -30,7 +30,8 @@ def start_exploring(input)
 
   input.rovers.each do |rover_input|
     rover = Rover.new(rover_input.initial_position, rover_input.commands, map)
-    rover.run
+    last_position = rover.run
+    puts "Position:#{last_position.coordinate.x},#{last_position.coordinate.y} #{last_position.orientation}"
   end
 end
 

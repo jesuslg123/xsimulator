@@ -9,7 +9,7 @@ class Rover
     @current_position = position
     @moves = moves
     @map = map
-    @compass = {
+    @compass = { # TODO: Change for coordinates
       W: [-1, 0],
       N: [0, 1],
       E: [1, 0],
@@ -21,7 +21,7 @@ class Rover
     @moves.each do |move|
       execute(move)
     end
-    puts "Position:#{@current_position.coordinate.x},#{@current_position.coordinate.y} #{@current_position.orientation}"
+    @current_position
   end
 
   private
@@ -49,6 +49,7 @@ class Rover
       @current_position.coordinate = next_coordinate
     else
       puts 'Invalid movement'
+      # TODO: Stop move in invalid found
     end
   end
 
