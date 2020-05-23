@@ -6,7 +6,7 @@ require_relative 'xsimulator/map'
 require_relative 'xsimulator/rover'
 
 def main
-  puts 'Initializing....'
+  puts 'Initializing...'
 
   input = process_input
   start_exploring(input)

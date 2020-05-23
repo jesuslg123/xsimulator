@@ -34,7 +34,6 @@ class Input
   end
 
   def open_file(path)
-    puts "Opening: #{path}"
     begin
       file = File.open(path, 'r')
     rescue StandardError
@@ -75,8 +74,6 @@ class Input
 
     area_data = area_data.map(&:to_i)
 
-    puts "Area: #{area_data.join(',')}"
-
     @area_coordinate = Coordinate.new(area_data.first, area_data.last)
   end
 
@@ -87,10 +84,6 @@ class Input
 
     position_data[0] = position_data[0].to_i
     position_data[1] = position_data[1].to_i
-
-    puts 'Rover data'
-    puts position_data.join(',')
-    puts moves_data.join(',')
 
     rover_input = RoverInput.new(position_data, moves_data)
 
