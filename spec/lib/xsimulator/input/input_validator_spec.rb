@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../spec_helper'
-require_relative '../../lib/xsimulator/input/input_validator'
+require_relative '../../../spec_helper'
+require_relative '../../../../lib/xsimulator/input/input_validator'
 
 RSpec.describe InputValidator do
   context 'when the area data is valid' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'spec_helper'
-require_relative '../lib/xsimulator/rover'
+require_relative '../../spec_helper'
+require_relative '../../../lib/xsimulator/rover'
 
 RSpec.describe Rover do
   let(:rover) { Rover.new(position, moves, map) }
