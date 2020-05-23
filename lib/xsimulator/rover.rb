@@ -5,6 +5,8 @@ require_relative 'map'
 
 # Represent the rover module which can move and explore an area
 class Rover
+  attr_accessor :current_position
+
   def initialize(position, moves, map)
     @current_position = position
     @moves = moves
@@ -21,42 +23,50 @@ class Rover
     @moves.each do |move|
       execute(move)
     end
-    @current_position
+    true
+  rescue StandardError
+    false
   end
 
   private
 
-  def execute(move)
-    case move.upcase
+  def execute(command)
+    case command.upcase
     when 'M'
       move_position
     when 'L', 'R'
-      turn(move)
+      turn(command)
     else
-      puts "Invalid move: #{move}. Ignoring."
+      raise StandardError, "Invalid command: #{command}"
     end
   end
 
   def move_position
-    current_orientation = @current_position.orientation
-    current_coordinate = @current_position.coordinate
-    move_value = @compass[current_orientation.to_sym]
+    next_coordinate = calculate_next_coordinate
 
-    next_coordinate = Coordinate.new(current_coordinate.x + move_value[0], current_coordinate.y + move_value[1])
+    raise StandardError, 'Invalid rover move' unless @map.available?(next_coordinate)
 
-    if @map.available?(next_coordinate)
-      @map.update_rover_coordinate(current_coordinate, next_coordinate)
-      @current_position.coordinate = next_coordinate
-    else
-      puts 'Invalid movement'
-      # TODO: Stop move in invalid found
-    end
+    @map.update_rover_coordinate(current_coordinate, next_coordinate)
+    @current_position = Position.new(next_coordinate, current_orientation)
   end
 
   def turn(direction)
     turn_value = direction == 'L' ? -1 : 1
-    current_orientation_index = @compass.keys.index(@current_position.orientation.to_sym)
+    current_orientation_index = @compass.keys.index(current_orientation.to_sym)
     next_orientation_index = (current_orientation_index + turn_value) % @compass.length
     @current_position.orientation = @compass.keys[next_orientation_index].to_s
+  end
+
+  def calculate_next_coordinate
+    move_value = @compass[current_orientation.to_sym]
+    Coordinate.new(current_coordinate.x + move_value[0], current_coordinate.y + move_value[1])
+  end
+
+  def current_orientation
+    @current_position.orientation
+  end
+
+  def current_coordinate
+    @current_position.coordinate
   end
 end
