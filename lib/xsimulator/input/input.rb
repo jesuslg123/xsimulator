@@ -8,47 +8,33 @@ require_relative 'rover_input'
 class Input
   attr_accessor :rovers, :area_coordinate
 
+  class MissingPathError < StandardError; end
+  class FileNotFoundError < StandardError; end
+  class EmptyFileError < StandardError; end
+  class AreaDataError < StandardError; end
+  class RoverDataError < StandardError; end
+
   def initialize(path)
     @area_coordinate = nil
     @rovers = []
 
-    unless path
-      raise StandardError, 'Missing input file path' # TODO: Custom exceptions class
-    end
+    raise MissingPathError, 'Missing input file path' unless path
 
     read_input_file(path)
   end
 
   def read_input_file(file_path)
-    file = open_file(file_path)
+    commands_lines = commands_from_input(file_path)
 
-    # rubocop: disable Style/ZeroLengthPredicate
-    if file.size == 0
-      # rubocop: enable Style/ZeroLengthPredicate
-      raise StandardError, 'Input file is empty' # TODO: Custom exceptions class
-    end
-
-    commands_lines = commands_from_input(file)
+    raise EmptyFileError, 'Input file is empty' if commands_lines.empty?
 
     process_commands(commands_lines)
   end
 
-  def open_file(path)
-    begin
-      file = File.open(path, 'r')
-    rescue StandardError
-      raise StandardError, 'Input file not found' # TODO: Custom exceptions class
-    end
-    file
-  end
-
-  def commands_from_input(file)
-    command_lines = []
-    file.each_line do |line|
-      line = line.split(' ')
-      command_lines.append(line) unless line.empty?
-    end
-    command_lines
+  def commands_from_input(path)
+    File.readlines(path).map(&:split).reject(&:empty?)
+  rescue Errno::ENOENT
+    raise FileNotFoundError, 'Input file not found'
   end
 
   # TODO: Re-think
@@ -57,20 +43,18 @@ class Input
 
     index = 1
     while index < commands.length
-      position_command = commands[index]
+      position = commands[index]
       index += 1
-      moves_command = commands[index]
+      actions = commands[index]
 
-      process_input_rover(position_command, moves_command)
+      process_input_rover(position, actions)
 
       index += 1
     end
   end
 
   def process_input_area(area_data)
-    unless InputValidator.valid_area?(area_data)
-      raise StandardError, 'Invalid data area' # TODO: Custom exceptions class
-    end
+    raise AreaDataError, 'Invalid data area' unless InputValidator.valid_area?(area_data)
 
     area_data = area_data.map(&:to_i)
 
@@ -78,9 +62,7 @@ class Input
   end
 
   def process_input_rover(position_data, moves_data)
-    unless InputValidator.valid_rover?(position_data, moves_data)
-      raise StandardError, 'Invalid data rover' # TODO: Custom exceptions class
-    end
+    raise RoverDataError, 'Invalid data rover' unless InputValidator.valid_rover?(position_data, moves_data)
 
     position_data[0] = position_data[0].to_i
     position_data[1] = position_data[1].to_i
