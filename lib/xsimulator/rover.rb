@@ -5,6 +5,9 @@ require_relative 'map'
 
 # Represent the rover module which can move and explore an area
 class Rover
+  class InvalidActionError < StandardError; end
+  class InvalidMoveError < StandardError; end
+
   attr_accessor :current_position
 
   def initialize(position, moves, map)
@@ -30,21 +33,21 @@ class Rover
 
   private
 
-  def execute(command)
-    case command.upcase
+  def execute(action)
+    case action.upcase
     when 'M'
       move_position
     when 'L', 'R'
-      turn(command)
+      turn(action)
     else
-      raise StandardError, "Invalid command: #{command}"
+      raise InvalidActionError, "Invalid action: #{action}"
     end
   end
 
   def move_position
     next_coordinate = calculate_next_coordinate
 
-    raise StandardError, 'Invalid rover move' unless @map.available?(next_coordinate)
+    raise InvalidMoveError, 'Invalid rover move' unless @map.available?(next_coordinate)
 
     @map.update_rover_coordinate(current_coordinate, next_coordinate)
     @current_position = Position.new(next_coordinate, current_orientation)
