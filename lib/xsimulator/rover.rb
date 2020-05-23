@@ -15,10 +15,10 @@ class Rover
     @moves = moves
     @map = map
     @compass = { # TODO: Change for coordinates
-      W: [-1, 0],
-      N: [0, 1],
-      E: [1, 0],
-      S: [0, -1]
+      W: Coordinate.new(-1, 0),
+      N: Coordinate.new(0, 1),
+      E: Coordinate.new(1, 0),
+      S: Coordinate.new(0, -1)
     }
   end
 
@@ -61,8 +61,8 @@ class Rover
   end
 
   def calculate_next_coordinate
-    move_value = @compass[current_orientation.to_sym]
-    Coordinate.new(current_coordinate.x + move_value[0], current_coordinate.y + move_value[1])
+    move_vector = @compass[current_orientation.to_sym]
+    current_coordinate + move_vector
   end
 
   def current_orientation

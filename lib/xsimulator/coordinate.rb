@@ -12,4 +12,8 @@ class Coordinate
   def ==(other)
     @x == other.x && @y == other.y
   end
+
+  def +(other)
+    Coordinate.new(@x + other.x, @y + other.y)
+  end
 end
