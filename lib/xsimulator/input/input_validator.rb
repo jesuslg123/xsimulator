@@ -6,22 +6,23 @@ class InputValidator
   VALID_ORIENTATIONS = %w[N S E W].freeze
 
   def self.valid_area?(data)
-    is_valid_length = data.length == 2
-    is_valid_position = valid_coordinate_values?(data[0], data[1])
+    return false if !data || data.length != 2
 
-    is_valid_length && is_valid_position
+    valid_coordinate_values?(data[0], data[1])
   end
 
   def self.valid_rover?(position_data, moves_data)
-    valid_rover_position?(position_data) && valid_rover_moves?(moves_data)
+    position_data && moves_data &&
+      valid_rover_position?(position_data) && valid_rover_moves?(moves_data)
   end
 
-  def self.valid_rover_position?(position_data)
-    is_valid_length = position_data.length == 3
-    is_valid_position = valid_coordinate_values?(position_data[0], position_data[1])
-    is_valid_orientation = VALID_ORIENTATIONS.include?(position_data[2])
+  def self.valid_rover_position?(data)
+    return false if !data || data.length != 3
 
-    is_valid_length && is_valid_position && is_valid_orientation
+    is_valid_position = valid_coordinate_values?(data[0], data[1])
+    is_valid_orientation = VALID_ORIENTATIONS.include?(data[2])
+
+    is_valid_position && is_valid_orientation
   end
 
   def self.valid_rover_moves?(moves_data)

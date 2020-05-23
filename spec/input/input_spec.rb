@@ -50,9 +50,14 @@ RSpec.describe Input do
       expect { Input.new(path) }.to raise_error('Input file is empty')
     end
 
-    it 'has an invalid format file' do
-      path = "#{RSPEC_ROOT}/fixtures/empty.txt"
-      expect { Input.new(path) }.to raise_error('Input file is empty')
+    it 'is missing area info' do
+      path = "#{RSPEC_ROOT}/fixtures/invalid-missing-area-info.txt"
+      expect { Input.new(path) }.to raise_error('Invalid data area')
+    end
+
+    it 'is missing rover info' do
+      path = "#{RSPEC_ROOT}/fixtures/invalid-missing-rover-info.txt"
+      expect { Input.new(path) }.to raise_error('Invalid data rover')
     end
   end
 
