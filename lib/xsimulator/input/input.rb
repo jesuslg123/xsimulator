@@ -37,19 +37,17 @@ class Input
     raise FileNotFoundError, 'Input file not found'
   end
 
-  # TODO: Re-think
   def process_commands(commands)
     process_input_area(commands.first)
 
     index = 1
     while index < commands.length
       position = commands[index]
-      index += 1
-      actions = commands[index]
+      actions = commands[index + 1]
 
       process_input_rover(position, actions)
 
-      index += 1
+      index += 2
     end
   end
 
