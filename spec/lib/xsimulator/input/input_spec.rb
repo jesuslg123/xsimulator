@@ -35,46 +35,51 @@ RSpec.describe Input do
     end
   end
 
-  context 'when the source is invalid' do
-    it 'does not has file path' do
-      expect { Input.new(nil) }.to raise_error('Missing input file path')
-    end
+  context 'does not has file path' do
+    let(:path) { nil }
 
-    it 'has an invalid file path' do
-      path = "#{RSPEC_ROOT}/fixtures/no-exists.txt"
-      expect { Input.new(path) }.to raise_error('Input file not found')
-    end
-
-    it 'has an empty file' do
-      path = "#{RSPEC_ROOT}/fixtures/empty.txt"
-      expect { Input.new(path) }.to raise_error('Input file is empty')
-    end
-
-    it 'is missing area info' do
-      path = "#{RSPEC_ROOT}/fixtures/invalid-missing-area-info.txt"
-      expect { Input.new(path) }.to raise_error('Invalid data area')
-    end
-
-    it 'is missing rover info' do
-      path = "#{RSPEC_ROOT}/fixtures/invalid-missing-rover-info.txt"
-      expect { Input.new(path) }.to raise_error('Invalid data rover')
-    end
+    it { expect { input }.to raise_error('Missing input file path') }
   end
 
-  context 'when the input format is not correct' do
-    it 'has invalid area' do
-      path = "#{RSPEC_ROOT}/fixtures/wrong-area-data.txt"
-      expect { Input.new(path) }.to raise_error('Invalid data area')
-    end
+  context 'has an invalid file path' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/no-exists.txt" }
 
-    it 'has invalid rover moves data' do
-      path = "#{RSPEC_ROOT}/fixtures/wrong-rover-data.txt"
-      expect { Input.new(path) }.to raise_error('Invalid data rover')
-    end
+    it { expect { input }.to raise_error('Input file not found') }
+  end
 
-    it 'has invalid rover orientation data' do
-      path = "#{RSPEC_ROOT}/fixtures/wrong-rover-orientation-data.txt"
-      expect { Input.new(path) }.to raise_error('Invalid data rover')
-    end
+  context 'has an empty file' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/empty.txt" }
+
+    it { expect { input }.to raise_error('Input file is empty') }
+  end
+
+  context 'is missing area info' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/invalid-missing-area-info.txt" }
+
+    it { expect { input }.to raise_error('Invalid data area') }
+  end
+
+  context 'is missing rover info' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/invalid-missing-rover-info.txt" }
+
+    it { expect { input }.to raise_error('Invalid data rover') }
+  end
+
+  context 'has invalid area' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/wrong-area-data.txt" }
+
+    it { expect { input }.to raise_error('Invalid data area') }
+  end
+
+  context 'has invalid rover moves data' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/wrong-rover-data.txt" }
+
+    it { expect { input }.to raise_error('Invalid data rover') }
+  end
+
+  context 'has invalid rover orientation data' do
+    let(:path) { "#{RSPEC_ROOT}/fixtures/wrong-rover-orientation-data.txt" }
+
+    it { expect { input }.to raise_error('Invalid data rover') }
   end
 end

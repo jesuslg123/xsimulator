@@ -8,9 +8,12 @@ require_relative '../../lib/xsimulator'
 RSpec.describe XSimulator do
   context 'when input is valid' do
     let(:path) { "#{RSPEC_ROOT}/fixtures/valid.txt" }
+    let(:expected_cli_output) do
+      "Initializing...\nSequence completed: true\nPosition: 1,3 N\nSequence completed: true\nPosition: 5,1 E\n"
+    end
 
     it 'has the next output' do
-      expect { XSimulator.new(path).run }.to output("Initializing...\nSequence completed: true\nPosition: 1,3 N\nSequence completed: true\nPosition: 5,1 E\n").to_stdout
+      expect { XSimulator.new(path).run }.to output(expected_cli_output).to_stdout
     end
   end
 
