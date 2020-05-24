@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'byebug'
 require_relative '../spec_helper'
 require_relative '../../lib/xsimulator/input/input'
 require_relative '../../lib/xsimulator'
