@@ -1,3 +1,4 @@
+![Ruby](https://github.com/jesuslg123/xsimulator-production/workflows/Ruby/badge.svg)
 
 # XSimulator
 
